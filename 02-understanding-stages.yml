@@ -15,16 +15,19 @@ stages:
   - job: Firstjob
     steps:
     - bash: echo Build First job
+    - bash: ${PipelineLevelVariable}
   - job: Secondjob
     steps:
     - bash: echo Build Second job
 
 - stage: dev
+  variables:
+    environment: Dev
   dependsOn: Build
   jobs:
   - job: devjob
     steps:
-    - bash: echo Build Dev job
+    - bash: echo Build $(environment) job
 - stage: test
   dependsOn: Build
   jobs:
