@@ -33,7 +33,7 @@ stages:
             - script: echo deploy to dev!
 - stage: test
   jobs:
-  - deployment: DevDeployment
+  - deployment: TestDeployment
     environment: test
     strategy:
       runOnce:
