@@ -20,16 +20,21 @@ stages:
     - bash: echo Build Second job
 
 - stage: dev
+  dependsOn: Build
   jobs:
   - job: devjob
     steps:
     - bash: echo Build Dev job
 - stage: test
+  dependsOn: Build
   jobs:
   - job: testjob
     steps:
     - bash: echo Build test job
 - stage: production
+  dependsOn:
+  - dev
+  - test
   jobs:
   - job: productionjob
     steps:
