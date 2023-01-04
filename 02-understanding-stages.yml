@@ -12,29 +12,25 @@ pool:
 stages:
 - stage: Build
   jobs:
-  - job: First job
+  - job: Firstjob
     steps:
     - bash: echo Build First job
-  - job: Second job
+  - job: Secondjob
     steps:
     - bash: echo Build Second job
 
 - stage: dev
   jobs:
-  - job: dev job
+  - job: devjob
     steps:
     - bash: echo Build Dev job
 - stage: test
   jobs:
-  - job: test job
+  - job: testjob
     steps:
     - bash: echo Build test job
 - stage: production
   jobs:
-  - job: production job
+  - job: productionjob
     steps:
     - bash: echo Build production job
-
-steps:
-- script: echo job1 step1!
-  displayName: 'Run a one-line script'
