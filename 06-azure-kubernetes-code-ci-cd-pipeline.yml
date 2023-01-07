@@ -27,7 +27,7 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        containerRegistry: 'singh2311-docker-hub'
+        containerRegistry: 'docker-hub'
         repository: 'singh2311/currency-exchange-azure'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
