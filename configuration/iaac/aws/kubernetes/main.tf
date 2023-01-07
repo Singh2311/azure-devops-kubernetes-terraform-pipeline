@@ -27,24 +27,15 @@ provider "kubernetes" {
   token                  = data.aws_eks_cluster_auth.cluster.token
 }
 
-module "sumit-cluster" {
+module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "sumit-cluster"
-  cluster_version = "1.17"
-  subnets         = ["subnet-072b3355fe2ae6bc4", "subnet-06dde89b4281a08ff"] #CHANGE
+  cluster_version = "1.21"
+  subnet_ids         = ["subnet-072b3355fe2ae6bc4", "subnet-06dde89b4281a08ff"] #CHANGE
   #subnets = data.aws_subnet_ids.subnets.ids
   vpc_id          = aws_default_vpc.default.id
 
   #vpc_id         = "vpc-1234556abcdef"
-
-  node_groups = [
-    {
-      instance_type = "t2.micro"
-      max_capacity  = 5
-      desired_capacity = 3
-      min_capacity  = 3
-    }
-  ]
 }
 
 data "aws_eks_cluster" "cluster" {
