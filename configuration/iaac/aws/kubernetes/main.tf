@@ -34,8 +34,8 @@ module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "sumit-cluster"
   cluster_version = "1.21"
-  subnet_ids         = ["subnet-072b3355fe2ae6bc4", "subnet-06dde89b4281a08ff"] #CHANGE
-  #subnets = data.aws_subnet_ids.subnets.ids
+  #subnet_ids         = ["subnet-072b3355fe2ae6bc4", "subnet-06dde89b4281a08ff"] #CHANGE
+  subnet_ids = data.aws_subnets.default_subnets.ids
   vpc_id          = aws_default_vpc.default.id
 
   #vpc_id         = "vpc-1234556abcdef"
