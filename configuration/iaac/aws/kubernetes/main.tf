@@ -38,7 +38,7 @@ provider "kubernetes" {
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "sumit-cluster"
-  cluster_version = "1.23"
+  cluster_version = "1.21"
   #subnet_ids         = ["subnet-072b3355fe2ae6bc4", "subnet-06dde89b4281a08ff"] #CHANGE
   subnet_ids = data.aws_subnets.default_subnets.ids
   vpc_id          = aws_default_vpc.default.id
