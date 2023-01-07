@@ -39,6 +39,11 @@ module "eks" {
   vpc_id          = aws_default_vpc.default.id
 
   #vpc_id         = "vpc-1234556abcdef"
+  sc_desired_size                    = 2
+  sc_max_size                        = 2
+  sc_min_size                        = 1
+  instance_types                     = ["t2.micro"]
+  capacity_type                      = "SPOT"
 }
 
 data "aws_eks_cluster" "cluster" {
