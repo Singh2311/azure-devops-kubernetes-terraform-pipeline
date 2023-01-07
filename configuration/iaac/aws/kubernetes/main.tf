@@ -55,7 +55,7 @@ resource "kubernetes_cluster_role_binding" "example" {
     name = "fabric8-rbac"
   }
   role_ref {
-    api_group = "rbac.authorization.k8s.io"
+    api_group = "rbac.authorization.k8s.io/v1"
     kind      = "ClusterRole"
     name      = "cluster-admin"
   }
