@@ -28,12 +28,19 @@ provider "kubernetes" {
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
     token                  = data.aws_eks_cluster_auth.cluster.token
+
+ exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    command     = "aws"
+    # This requires the awscli to be installed locally where Terraform is executed
+    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+  }
 }
 
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "sumit-cluster"
-  cluster_version = "1.21"
+  cluster_version = "1.24"
   #subnet_ids         = ["subnet-072b3355fe2ae6bc4", "subnet-06dde89b4281a08ff"] #CHANGE
   subnet_ids = data.aws_subnets.default_subnets.ids
   vpc_id          = aws_default_vpc.default.id
