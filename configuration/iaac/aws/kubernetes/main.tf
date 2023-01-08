@@ -25,8 +25,8 @@ data "aws_subnets" "default_subnets" {
 }
 
 provider "kubernetes" {
-  host                   = data.aws_eks_cluster.cluster.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  host                   = dmodule.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
   token                  = data.aws_eks_cluster_auth.cluster.token
 }
 
@@ -39,6 +39,16 @@ module "eks" {
   vpc_id          = aws_default_vpc.default.id
 
   #vpc_id         = "vpc-1234556abcdef"
+
+
+   aws_auth_users = [
+    {
+      userarn  = "arn:aws:iam::061473577069:user/terraform-aws-user"
+      username = "terraform-aws-user"
+      groups   = ["system:masters"]
+    }
+  ]
+
 }
 
 data "aws_eks_cluster" "cluster" {
