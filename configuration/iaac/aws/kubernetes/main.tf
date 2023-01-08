@@ -25,7 +25,7 @@ data "aws_subnets" "default_subnets" {
 }
 
 provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
+  host                   = dmodule.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
   token                  = data.aws_eks_cluster_auth.cluster.token
 }
@@ -44,7 +44,7 @@ module "eks" {
    aws_auth_users = [
     {
       userarn  = "arn:aws:iam::061473577069:user/terraform-aws-user"
-      username = "terraform-aws-user"
+      username = "terraform-backend-state-singh2311"
       groups   = ["system:masters"]
     }
   ]
