@@ -25,14 +25,9 @@ data "aws_subnets" "default_subnets" {
 }
 
 provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
- exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    command     = "aws"
-    # This requires the awscli to be installed locally where Terraform is executed
-    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
-  }
+  host                   = data.aws_eks_cluster.cluster.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  token                  = data.aws_eks_cluster_auth.cluster.token
 }
 
 module "eks" {
@@ -44,6 +39,14 @@ module "eks" {
   vpc_id          = aws_default_vpc.default.id
 
   #vpc_id         = "vpc-1234556abcdef"
+}
+
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_name
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name =  module.eks.cluster_name
 }
 
 
@@ -59,21 +62,12 @@ resource "kubernetes_cluster_role_binding" "example" {
     kind      = "ClusterRole"
     name      = "cluster-admin"
   }
- subject {
-    kind      = "User"
-    name      = "admin"
-    api_group = "rbac.authorization.k8s.io"
-  }
   subject {
     kind      = "ServiceAccount"
     name      = "default"
     namespace = "kube-system"
   }
-  subject {
-    kind      = "Group"
-    name      = "system:masters"
-    api_group = "rbac.authorization.k8s.io"
-  }
+
 }
 
 # Needed to set the default region
